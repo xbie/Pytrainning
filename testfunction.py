@@ -356,10 +356,35 @@ def test21():
     s = json.dumps(obj,  ensure_ascii=True,)
     print(obj,s)
 
+# datetime日期时间操作，获取了用户输入的日期和时间如2015-1-21 9:01:30，
+# 以及一个时区信息如UTC+5:00，均是str，请编写一个函数将其转换为timestamp
+
+def test22():
+    import re
+    from datetime import datetime, timedelta, timezone
+    def to_timestamp(dt_str, tz_str):
+        regex = re.match(r'^UTC([\+\-]\d{1,2}):\d{2}', tz_str)
+        intre = int(regex.group(1))
+        utch = timezone(timedelta(hours=intre))
+        dt = datetime.strptime(dt_str, '%Y-%m-%d %H:%M:%S')
+        dt2 = dt.replace(tzinfo=utch)
+        dts = dt2.timestamp()
+        return dts
+
+    t1 = to_timestamp('2015-5-31 16:10:30', 'UTC-9:00')
+    print(t1)
+    assert t1 == 1433121030.0
 
 
 
-test21()
+
+
+
+
+
+
+
+test22()
 
 
 
